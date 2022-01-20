@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eel example</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="text/javascript" src="/eel.js"></script>
+</head>
+<body class="p-5">
+<div class="p-1 block">
+    <button id="keine-personenbezeichnung" class="bg-slate-400 p-2 m-1">1 Keine Personenbezeichnung</button>
+    <button id="niemals-personenbezeichnung" class="bg-slate-600 p-2 m-1">9 Niemals Personenbezeichnung</button>
+</div>
+<div class="p-1 block">
+    <button id="personenbezeichnung-sicher-keine-abstrahierende-verwendung" class="bg-blue-600 p-2 m-1">2 Personenbezeichnung & sicher ohne abstrahierende Verwendung</button>
+    <button id="personenbezeichnung-wahrscheinlich-keine-abstrahierende-verwendung" class="bg-blue-400 p-2 m-1">3 Personenbezeichnung & wahrscheinlich ohne abstrahierende Verwendung</button>
+    <button id="personenbezeichnung-keine-abstrahierende-verwendung-ohne-korrekturbedarf" class="bg-stone-400 p-2 m-1">+ Personenbezeichnung & ohne abstrahierende Verwendung & ohne Korrekturbedarf</button>
+</div>
+<div class="p-1 block">
+    <button id="personenbezeichnung-bereits-neutral" class="bg-green-400 p-2 m-1">4 Personenbezeichnung & bereits neutral</button>
+</div>
+<div class="p-1 block">
+    <button id="personenbezeichnung-wahrscheinlich-abstrahierend" class="bg-red-400 p-2 m-1">5 Personenbezeichnung & wahrscheinlich abstrahierende Verwendung</button>
+    <button id="personenbezeichnung-abstrahierend" class="bg-red-600 p-2 m-1">6 Personenbezeichnung & sicher abstrahierende Verwendung</button>
+    <button id="personenbezeichnung-abstrahierend-ohne-korrekturbedarf" class="bg-stone-400 p-2 m-1">8 Personenbezeichnung & sicher abstrahierende Verwendung & ohne Korrekturbedarf</button>
+</div>
+<div class="p-1 block">
+    <button id="nicht-bestimmbar" class="bg-stone-600 p-2 m-1">7 zurzeit nicht bestimmbar</button>
+</div>
+<div id="stats" class="p-2 block">
+
+</div>
+
+<div id="textcontent" class="p-2">
+
+</div>
+</body>
+<script>
+    id_to_classification = {
+        "keine-personenbezeichnung": "KEINE_PERSONENBEZEICHNUNG",
+        "niemals-personenbezeichnung": "NIEMALS_PERSONENBEZEICHNUNG",
+        "personenbezeichnung-sicher-keine-abstrahierende-verwendung": "PERSONENBEZEICHNUNG_SICHER_KEINE_ABSTRAHIERENDE_VERWENDUNG",
+        "personenbezeichnung-wahrscheinlich-keine-abstrahierende-verwendung": "PERSONENBEZEICHNUNG_WAHRSCHEINLICH_KEINE_ABSTRAHIERENDE_VERWENDUNG",
+        "personenbezeichnung-keine-abstrahierende-verwendung-ohne-korrekturbedarf": "PERSONENBEZEICHNUNG_KEINE_ABSTRAHIERENDE_VERWENDUNG_OHNE_KORREKTURBEDARF",
+        "personenbezeichnung-bereits-neutral": "PERSONENBEZEICHNUNG_BEREITS_NEUTRAL",
+        "personenbezeichnung-wahrscheinlich-abstrahierend": "PERSONENBEZEICHNUNG_WAHRSCHEINLICH_ABSTRAHIEREND",
+        "personenbezeichnung-abstrahierend": "PERSONENBEZEICHNUNG_ABSTRAHIEREND",
+        "personenbezeichnung-abstrahierend-ohne-korrekturbedarf": "PERSONENBEZEICHNUNG_ABSTRAHIEREND_OHNE_KORREKTURBEDARF",
+        "nicht-bestimmbar": "NICHT_BESTIMMBAR",
+    }
+
+    async function next_occurence() {
+        let result = await eel.next_occurence()();
+
+        document.getElementById("textcontent").innerHTML = result.text_html;
+        document.getElementById("stats").innerHTML = result.occurences_tagged + " / " + result.occurences;
+    }
+
+    for (const [id, classification] of Object.entries(id_to_classification)) {
+        document.getElementById(id).addEventListener("click", async () => {
+            await eel.classificate(classification);
+            await next_occurence()
+        })
+    }
+
+    document.addEventListener("DOMContentLoaded", async (event) => {
+        await next_occurence()
+    })
+</script>
+</html>

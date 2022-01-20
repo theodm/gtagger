@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "gtagger"
+version = "0.1.0"
+description = ""
+authors = ["Theodor Diesner-Mayer <theo.dm94@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+lxml = "^4.6.4"
+loguru = "^0.5.3"
+dataset = "^1.5.1"
+Eel = "^0.14.0"
+spacy = "^3.2.1"
+joblib = "^1.1.0"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
